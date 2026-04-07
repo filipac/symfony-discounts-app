@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout {{ product.name }}{% endblock %}
+
+{% block body %}
+    <section class="page narrow">
+        <h1>Checkout {{ product.name }}</h1>
+        <p class="muted">{{ product.sku }}</p>
+        <p>{{ product.description }}</p>
+        <p><strong>{{ product.displayPrice }}</strong></p>
+
+        <form method="post" action="{{ path('checkout_apply_promo', {id: product.id}) }}">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="buyer@example.com">
+
+            <label>Quantity</label>
+            <input type="number" name="quantity" value="1" min="1">
+
+            <label>Promo code</label>
+            <input type="text" name="promo_code" placeholder="SPRING25">
+
+            <button type="submit">Apply promo and place order</button>
+        </form>
+    </section>
+{% endblock %}

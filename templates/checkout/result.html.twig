@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout result{% endblock %}
+
+{% block body %}
+    <section class="page narrow">
+        <h1>Checkout result</h1>
+        <p>Product: <strong>{{ product.name }}</strong></p>
+        <p>Quantity: {{ quantity }}</p>
+        <p>Promo: {{ promoCode ?: 'none' }}</p>
+        <p>Applied percentage: {{ appliedPercentage }}</p>
+        <p>Subtotal: ${{ subtotal|number_format(2) }}</p>
+        <p>Discount: ${{ discountAmount|number_format(2) }}</p>
+        <p>Total: ${{ total|number_format(2) }}</p>
+
+        {% if messages %}
+            <div class="panel error">
+                <h2>Things to check</h2>
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <a href="{{ path('checkout_show', {id: product.id}) }}">Back to checkout</a>
+    </section>
+{% endblock %}

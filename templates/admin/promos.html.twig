@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin promos{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="hero">
+            <div>
+                <p class="eyebrow">Admin-ish area</p>
+                <h1>Promo codes</h1>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="panel">
+                <h2>Create promo code</h2>
+                <form method="post">
+                    <label>Code</label>
+                    <input type="text" name="code">
+
+                    <label>Percentage</label>
+                    <input type="number" step="0.1" name="percentage">
+
+                    <label>Usage limit</label>
+                    <input type="number" name="usage_limit">
+
+                    <label>Expires at</label>
+                    <input type="datetime-local" name="expires_at">
+
+                    <label>Notes</label>
+                    <textarea name="notes"></textarea>
+
+                    <label class="inline">
+                        <input type="checkbox" name="active" checked>
+                        Active
+                    </label>
+
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>Existing promo codes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>%</th>
+                            <th>Used</th>
+                            <th>Expires</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for promo in promoCodes %}
+                            <tr>
+                                <td>{{ promo.code }}</td>
+                                <td>{{ promo.percentage }}</td>
+                                <td>{{ promo.timesUsed }}/{{ promo.usageLimit ?: '∞' }}</td>
+                                <td>{{ promo.expiresAt ? promo.expiresAt|date('Y-m-d H:i') : 'never' }}</td>
+                                <td>{{ promo.active ? 'yes' : 'no' }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">No promo codes yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

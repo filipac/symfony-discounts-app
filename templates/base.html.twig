@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Legacy Promo App{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+            <style>
+                :root {
+                    color-scheme: light;
+                    --bg: #f6f1e8;
+                    --paper: #fffdf8;
+                    --ink: #1f1b16;
+                    --muted: #786b5b;
+                    --line: #d9cfbf;
+                    --accent: #a1411b;
+                    --accent-soft: #f3c5a8;
+                    --error: #ffe2de;
+                    --success: #e8f3d5;
+                }
+
+                * { box-sizing: border-box; }
+                body {
+                    margin: 0;
+                    font-family: Georgia, "Times New Roman", serif;
+                    background: radial-gradient(circle at top, #fff9f0, var(--bg) 60%);
+                    color: var(--ink);
+                }
+                a { color: var(--accent); }
+                .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+                .page.narrow { max-width: 720px; }
+                .topbar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 1.25rem;
+                    border-bottom: 1px solid var(--line);
+                    background: rgba(255, 253, 248, 0.9);
+                    position: sticky;
+                    top: 0;
+                    backdrop-filter: blur(8px);
+                }
+                .topbar nav { display: flex; gap: 1rem; align-items: center; }
+                .hero, .card, .panel, form, table {
+                    background: var(--paper);
+                    border: 1px solid var(--line);
+                    box-shadow: 0 10px 30px rgba(70, 42, 27, 0.05);
+                }
+                .hero {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    padding: 1.5rem;
+                    margin-bottom: 1.25rem;
+                }
+                .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; color: var(--muted); }
+                .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+                .grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                    gap: 1rem;
+                }
+                .card, .panel, form { padding: 1rem; border-radius: 14px; }
+                .card-head {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    align-items: flex-start;
+                }
+                .meta, .muted { color: var(--muted); }
+                .search { margin-bottom: 1rem; }
+                .two-col {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+                }
+                .flash-wrap {
+                    max-width: 1100px;
+                    margin: 1rem auto 0;
+                    padding: 0 1.25rem;
+                }
+                .flash {
+                    padding: 0.85rem 1rem;
+                    border-radius: 10px;
+                    margin-bottom: 0.5rem;
+                    border: 1px solid var(--line);
+                }
+                .flash-success { background: var(--success); }
+                .flash-error { background: var(--error); }
+                .button, button, input, textarea {
+                    font: inherit;
+                }
+                input, textarea {
+                    width: 100%;
+                    margin: 0.35rem 0 0.9rem;
+                    padding: 0.7rem 0.85rem;
+                    border: 1px solid var(--line);
+                    border-radius: 8px;
+                    background: #fff;
+                }
+                button, .button {
+                    display: inline-block;
+                    padding: 0.75rem 1rem;
+                    border: 0;
+                    border-radius: 999px;
+                    background: var(--accent);
+                    color: #fff;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    overflow: hidden;
+                    border-radius: 14px;
+                }
+                th, td {
+                    padding: 0.75rem;
+                    border-bottom: 1px solid var(--line);
+                    text-align: left;
+                }
+                .inline {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                .inline input { width: auto; margin: 0; }
+                @media (max-width: 800px) {
+                    .hero, .two-col, .topbar { display: block; }
+                    .topbar nav { margin-top: 0.75rem; }
+                }
+            </style>
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body>
+        <header class="topbar">
+            <strong>Legacy Promo App</strong>
+            <nav>
+                <a href="{{ path('product_index') }}">Catalog</a>
+                {% if app.user %}
+                    <a href="{{ path('admin_promos') }}">Promos</a>
+                    <span>{{ app.user.userIdentifier }}</span>
+                    <a href="{{ path('app_logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Login</a>
+                {% endif %}
+            </nav>
+        </header>
+        <div class="flash-wrap">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">{{ message|raw }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% block body %}{% endblock %}
+    </body>
+</html>

@@ -21,8 +21,8 @@ You do not need to fix everything; we care most about your reasoning.
 
 ```bash
 composer install
-php -d bin/console doctrine:migrations:migrate --no-interaction
-php -d bin/console doctrine:fixtures:load --no-interaction
+php bin/console doctrine:migrations:migrate --no-interaction
+php bin/console doctrine:fixtures:load --no-interaction
 symfony server:start
 ```
 
@@ -38,3 +38,9 @@ symfony server:start
 -   `/checkout/{id}`
 -   `/admin/promos`
 -   `/api/products/search?q=mug`
+
+## Quick code browsing
+
+GitHub repo: `https://github.com/filipac/symfony-discounts-app`
+
+Web VS Code: `https://github.dev/filipac/symfony-discounts-app`
